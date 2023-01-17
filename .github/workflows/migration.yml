@@ -28,8 +28,8 @@ jobs:
         run: terraform init
       - name: Migrate state
         run: |
-          terraform state pull 
-          terraform state push 
+          terraform state pull -backup=backup.tfstate
+          terraform state push -backup=backup.tfstate
 
 
 
