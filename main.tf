@@ -1,6 +1,10 @@
 provider "aws" {
   region = "us-east-1"
 }
+variable "instance_name" {
+  type        = string
+  description = "The name tag of the ec2 instance"
+}
 
 resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
@@ -38,6 +42,9 @@ resource "aws_instance" "example" {
     network_interface_id = aws_network_interface.example.id
     device_index         = 0
   }
+   tags = {
+    Name = "${var.instance_name}"
+  }
 }
 resource "aws_s3_bucket" "tf_state_bucket" {
   bucket = "bucketforterraformangitGIT"
@@ -46,6 +53,7 @@ resource "aws_s3_bucket" "tf_state_bucket" {
     enabled = true
   }
 }
+
 
 resource "aws_s3_bucket_object" "tf_state_file" {
   bucket = aws_s3_bucket.tf_state_bucket.id
