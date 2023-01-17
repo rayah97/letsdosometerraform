@@ -29,7 +29,7 @@ jobs:
       - name: Migrate state
         run: |
           terraform  state pull > backup.tfstate
-          terraform state push -backup=backup.tfstate
+          terraform state push backup.tfstate
 
 
 
