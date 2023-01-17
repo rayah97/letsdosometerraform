@@ -28,9 +28,9 @@ jobs:
         run: terraform init
       - name: Migrate state
         run: |
-          terraform state pull -out=/state.tfstate
-
+          terraform state pull > state.tfstate
           ls -la
+          cat state.tfstate
           terraform state push state.tfstate
 
 
