@@ -32,10 +32,10 @@ jobs:
          terraform init \
           -backend-config="hostname=app.terraform.io" \
           -backend-config="organization=terraform-rayah" \
-          -backend-config="token=$${{ secrets.TF_CLOUD_TOKEN }}" \
+          -backend-config="token=${ secrets.TF_CLOUD_TOKEN }" \
           -backend-config="workspaces.name=my-new-workspace"
 
-          
+
          terraform state push terraform.tfstate
             
 
