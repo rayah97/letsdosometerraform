@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "tf_state_bucket" {
-  bucket = "bucketforterraformangitGIT"
+  bucket = "bucketforterraformangitGIThub"
   acl    = "private"
   versioning {
     enabled = true
@@ -64,7 +64,7 @@ resource "aws_instance" "example" {
 
 terraform {
   backend "s3" {
-    bucket = "bucketforterraformangitGIT"
+    bucket = "bucketforterraformangitGIThub"
     key    = "develop/terraform.tfstate"
     region = "us-east-1"
   }
