@@ -16,11 +16,6 @@ provider "aws" {
 #   key    = "develop/terraform.tfstate"
 # }
 
-variable "instance_name" {
-  type        = string
-  description = "The name tag of the ec2 instance"
-}
-
 resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
 }
@@ -31,7 +26,7 @@ resource "aws_subnet" "example" {
 }
 
 resource "aws_network_interface" "example" {
-  subnet_id   = aws_subnet.example.id
+  subnet_id = aws_subnet.example.id
   private_ips = ["10.0.1.10"]
 }
 
@@ -49,15 +44,13 @@ resource "aws_security_group" "example" {
 }
 
 resource "aws_instance" "example" {
-  ami             = "ami-0c94855ba95c71c99"
-  instance_type   = "t2.micro"
-  vpc_id          = aws_vpc.example.id
-  security_groups = [aws_security_group.example.name]
+  ami           = "ami-0c94855ba95c71c99"
+  instance_type = "t2.micro"
   network_interface {
     network_interface_id = aws_network_interface.example.id
     device_index         = 0
   }
-   tags = {
+     tags = {
     Name = "${var.instance_name}"
   }
 }
@@ -69,6 +62,8 @@ terraform {
     region = "us-east-1"
   }
 }
+
+
 output "public_ip" {
   value = aws_instance.example.public_ip
 }
