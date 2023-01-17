@@ -30,13 +30,12 @@ jobs:
       - name: Migrate state to Terraform Cloud
         run: |
           terraform init \
-          export TF_CLOUD_TOKEN= ${{ secrets.TF_CLOUD_TOKEN }}
-          
+        
           terraform {
             backend "remote" {
               hostname = "app.terraform.io"
               organization = "my-organization"
-              token = "${TF_CLOUD_TOKEN}"
+              token = "${ secrets.TF_CLOUD_TOKEN}"
               workspaces {
                 name = "my-workspace"
               }
