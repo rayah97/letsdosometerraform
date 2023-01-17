@@ -30,9 +30,10 @@ jobs:
       - name: Migrate state to Terraform Cloud
         run: |
           terraform init \
+          -backend-config="token=${secrets.TF_CLOUD_TOKEN}" \
           -backend-config="hostname=app.terraform.io" \
           -backend-config="organization=terraform-rayah" \
-          -backend-config="token=${secrets.TF_CLOUD_TOKEN}" \
+          
           -backend-config="workspaces.name=my-new-workspace"
           terraform state push terraform.tfstate
           terraform init
