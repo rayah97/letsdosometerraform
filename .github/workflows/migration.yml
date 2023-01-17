@@ -5,7 +5,7 @@ on:
 
 
 jobs:
-  CreateInf:
+  Migrate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,8 +28,8 @@ jobs:
         run: terraform init
       - name: Migrate state
         run: |
-          terraform state pull -backup=backup.tfstate
-          terraform state push -backup=backup.tfstate
+          terraform state pull 
+          terraform state push 
 
 
 
