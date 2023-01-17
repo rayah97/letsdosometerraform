@@ -1,4 +1,4 @@
-name: Terraform
+name: Create AWS Infastructure
 
 on:
   workflow_dispatch:

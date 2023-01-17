@@ -1,4 +1,4 @@
-name: Destroy EC2 Instance
+name: Destroy AWS Infastructure
 on:
   workflow_dispatch:
     inputs:

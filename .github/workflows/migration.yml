@@ -1,4 +1,4 @@
-name: Terraform
+name: Migrate Backend to Terraform Cloud
 
 on:
   workflow_dispatch:
