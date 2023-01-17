@@ -23,13 +23,14 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           cli_config_credentials_token: ${{ secrets.TF_CLOUD_TOKEN }}
-          cli_config_credentials_hostname: terraform-rayah 
+          cli_config_credentials_hostname: GitTerraform
       - name: Init Terraform
         run: terraform init
       - name: Migrate state
         run: |
-         
-          terraform state push terraform.tfstate
+          terraform state pull | sc terraform.tfstate
+          terraform state push backup.tfstate
+
 
 
 
