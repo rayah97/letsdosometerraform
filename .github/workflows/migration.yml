@@ -42,7 +42,8 @@ jobs:
             }
           }
           terraform state push terraform.tfstate
-          terraform plan
+          terraform init
+        
 
  
 
