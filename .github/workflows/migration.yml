@@ -23,13 +23,8 @@ jobs:
           terraform init
       - name: Configure Remote Backend
         run: |
-          export TF_CLOUD_TOKEN=${{ secrets.TF_CLOUD_TOKEN }}
-          terraform remote config \
-            -backend=remote \
-            -backend-config="hostname=app.terraform.io" \
-            -backend-config="organization=terraform-rayah" \
-            -backend-config="token=${TF_CLOUD_TOKEN}" \
-            -backend-config="workspaces.name=my-new-workspace"
+          terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=terraform-rayah" -backend-config="token=${TF_CLOUD_TOKEN}"
+          terraform workspace new my-new-workspace
       - name: Migrate State
         run: |
           terraform state pull > terraform.tfstate
