@@ -31,7 +31,7 @@ jobs:
           terraform state pull > state.tfstate
           ls -la
           cat state.tfstate
-          terraform state push state.tfstate
+          terraform state push -force state.tfstate
 
 
 
