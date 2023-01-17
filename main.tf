@@ -2,19 +2,19 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_s3_bucket" "tf_state_bucket" {
-  bucket = "bucketforterraformangitGIThub"
-  acl    = "private"
-  versioning {
-    enabled = true
-  }
-}
+# resource "aws_s3_bucket" "tf_state_bucket" {
+#   bucket = "bucketforterraformangitGIThub"
+#   acl    = "private"
+#   versioning {
+#     enabled = true
+#   }
+# }
 
 
-resource "aws_s3_bucket_object" "tf_state_file" {
-  bucket = aws_s3_bucket.tf_state_bucket.id
-  key    = "develop/terraform.tfstate"
-}
+# resource "aws_s3_bucket_object" "tf_state_file" {
+#   bucket = aws_s3_bucket.tf_state_bucket.id
+#   key    = "develop/terraform.tfstate"
+# }
 
 variable "instance_name" {
   type        = string
@@ -64,7 +64,7 @@ resource "aws_instance" "example" {
 
 terraform {
   backend "s3" {
-    bucket = "bucketforterraformangitGIThub"
+    bucket = "bucketforterraformangit"
     key    = "develop/terraform.tfstate"
     region = "us-east-1"
   }
