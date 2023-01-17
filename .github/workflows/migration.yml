@@ -30,7 +30,7 @@ jobs:
         run: |
           terraform state pull > state.tfstate
           ls -la
-          terraform state push backup.tfstate
+          terraform state push state.tfstate
 
 
 
