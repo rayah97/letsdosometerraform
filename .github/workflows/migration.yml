@@ -31,7 +31,6 @@ jobs:
         run: |
           terraform init \
           export TF_CLOUD_TOKEN= ${{ secrets.TF_CLOUD_TOKEN }}
-          terraform init 
           
           terraform {
             backend "remote" {
