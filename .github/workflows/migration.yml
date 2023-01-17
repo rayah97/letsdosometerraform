@@ -41,7 +41,8 @@ jobs:
               }
             }
           }
-          
+          terraform state push terraform.tfstate
+ 
 
 
 
