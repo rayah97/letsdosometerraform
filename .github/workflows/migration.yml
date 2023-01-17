@@ -34,16 +34,16 @@ jobs:
           terraform {
             backend "remote" {
               hostname = "app.terraform.io"
-              organization = "my-organization"
+              organization = "terraform-rayah"
               token = "${ secrets.TF_CLOUD_TOKEN}"
               workspaces {
-                name = "my-workspace"
+                name = "my-new-workspace"
               }
             }
           }
           terraform state push terraform.tfstate
           terraform plan
-          
+
  
 
 
