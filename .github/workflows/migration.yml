@@ -19,19 +19,18 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-1
-      - name: Configure Terraform Cloud credentials
-        uses: hashicorp/setup-terraform@v1
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_CLOUD_TOKEN }}
-          cli_config_credentials_hostname: GitTerraform
-      - name: Init Terraform
-        run: terraform init
-      - name: Migrate state
+      - name: Migrate state to Terraform Cloud
         run: |
-          terraform state pull > state.tfstate
-          ls -la
-          cat state.tfstate
-          terraform state push -force state.tfstate
+          terraform init \
+            -backend-config="bucket=bucketforterraformangit" \
+            -backend-config="key=develop/terraform.tfstate" \
+            -backend-config="region=us-east-1"
+          terraform state pull > terraform.tfstate
+          terraform init \
+            -backend-config="hostname=app.terraform.io" \
+            -backend-config="organization=terraform-rayah" \
+            -backend-config="workspaces.name=my-workspace222"
+          terraform state push terraform.tfstate
 
 
 
