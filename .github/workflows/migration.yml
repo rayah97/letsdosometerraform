@@ -27,16 +27,16 @@ jobs:
             -backend-config="region=us-east-1"
           terraform state pull > terraform.tfstate
 
-      - name: Migrate state to Terraform Cloud
+      - name: Configure Remote Backend
         run: |
-         terraform init \
-          -backend-config="hostname=app.terraform.io" \
-          -backend-config="organization=terraform-rayah" \
-          -backend-config="token=${ secrets.TF_CLOUD_TOKEN }" \
-          -backend-config="workspaces.name=my-new-workspace"
-
-
-         terraform state push terraform.tfstate
+          export TF_CLOUD_TOKEN=${{ secrets.TF_CLOUD_TOKEN }}
+          terraform init \
+            -backend=remote \
+            -backend-config="hostname=app.terraform.io" \
+            -backend-config="organization=terraform-rayah" \
+            -backend-config="token=${TF_CLOUD_TOKEN}" \
+            -backend-config="workspaces.name=my-new-workspace"
+          terraform state push terraform.tfstate
             
 
  
