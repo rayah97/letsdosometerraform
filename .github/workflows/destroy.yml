@@ -1,0 +1,37 @@
+name: Destroy EC2 Instance
+on:
+  workflow_dispatch:
+    inputs:
+      instance_name:
+        description: "Instance name"
+        required: true
+        type: string
+
+jobs:
+  destroy_instance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.7
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_KEY}}
+          aws-region: us-east-1
+      - name: Configure Terraform Cloud credentials
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_CLOUD_TOKEN }}
+          cli_config_credentials_hostname: GitTerraform
+      - name: Initialize Terraform
+        run: terraform init
+      - name: Destroy EC2 instance
+        run: terraform destroy
+          -target=aws_instance.myec2
+          -var 'instance_name= ${{inputs.instance_name}}'
+          -input=false -auto-approve

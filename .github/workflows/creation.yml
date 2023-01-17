@@ -1,0 +1,38 @@
+name: Terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance_name:
+        description: "Instance name"
+        required: true
+        type: string
+
+jobs:
+  CreateInf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.7
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: us-east-1
+      - name: Init Terraform
+        run: terraform init
+      - name: Apply Terraform
+        run: terraform apply -var 'instance_name= ${{inputs.instance_name}}' -input=false -auto-approve
+      - name: Test infrastructure
+        run: |
+          export IP_ADDRESS=$(terraform output public_ip)
+          curl -s http://$IP_ADDRESS > website.html
+      - name: Create artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: website
+          path: website.html
