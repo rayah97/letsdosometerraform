@@ -26,17 +26,10 @@ jobs:
           cli_config_credentials_hostname: GitTerraform
       - name: Init Terraform
         run: terraform init
-      - name: Apply Terraform
-        run: terraform apply -var 'instance_name= ${{inputs.instance_name}}' -input=false -auto-approve
-      - name: Test infrastructure
+      - name: Migrate state
         run: |
-          export IP_ADDRESS=$(terraform output public_ip)
-          curl -s http://$IP_ADDRESS > website.html
-      - name: Create artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: website
-          path: website.html
+          terraform state pull -backup=backup.tfstate
+          terraform state push -backup=backup.tfstate
 
 
 
