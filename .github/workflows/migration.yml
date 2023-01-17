@@ -28,6 +28,7 @@ jobs:
           terraform state pull > terraform.tfstate
           terraform init \
             -backend-config="hostname=app.terraform.io" \
+            -backend-config="token=${TF_CLOUD_TOKEN}" \
             -backend-config="organization=terraform-rayah" \
             -backend-config="workspaces.name=my-workspace222"
           terraform state push terraform.tfstate
