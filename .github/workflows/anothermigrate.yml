@@ -36,7 +36,7 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Initialize Terraform
-      run: $ terraform init -migrate-state  
+      run: $ terraform init -backend=true   
            
     - name: Check2
       run: ls -la
