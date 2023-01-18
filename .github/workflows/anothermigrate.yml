@@ -29,4 +29,4 @@ jobs:
     - name: Download remote state file
       run: |
         echo "Fetching remote state file from S3..."
-        aws s3 cp s3://my-bucket/my-state-file.tfstate .
+        aws s3 cp s3://bucketforterraformangit/develop/terraform.tfstate .
