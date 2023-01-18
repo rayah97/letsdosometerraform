@@ -37,14 +37,13 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Initialize Terraform
       run: 
-        terraform init -migrate-state  -backend-config=" organization=terraform-rayah workspaces.name=my-new-workspace"
-
+        terraform init 
            
     - name: Check2
       run: ls -la
-    # - name: Push state to Terraform Cloud
-    #   run: |
-    #     echo "Pushing state to Terraform Cloud..."
+    - name: Push state to Terraform Cloud
+      run: |
+        echo "Pushing state to Terraform Cloud..."
 
-    #     terraform state push -force terraform.tfstate 
+        terraform state push -force terraform.tfstate 
 

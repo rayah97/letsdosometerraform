@@ -8,3 +8,6 @@ Initially use an s3 bucket as a state storage, once everything is created, curl 
 
 You need to have an infrastructure creation workflow that takes all the possible parameters as input.
 One workflow that migrates the state to the terraform cloud and another one that destroys the infrastructure.
+
+
+-migrate-state  -backend-config=" organization=terraform-rayah workspaces.name=my-new-workspace"
