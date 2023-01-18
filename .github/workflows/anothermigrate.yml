@@ -30,3 +30,6 @@ jobs:
       run: |
         echo "Fetching remote state file from S3..."
         aws s3 cp s3://bucketforterraformangit/develop/terraform.tfstate .
+
+    - name: Check
+      run: ls -la
