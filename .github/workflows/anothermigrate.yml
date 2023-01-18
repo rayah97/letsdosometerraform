@@ -31,6 +31,8 @@ jobs:
 
     - name: Check
       run: ls -la
+    - name: cat 
+      run: cat terraform.tfstate
     - name: Login to Terraform Cloud
       uses: hashicorp/setup-terraform@v2
       with:
