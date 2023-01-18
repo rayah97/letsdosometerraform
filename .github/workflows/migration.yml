@@ -8,8 +8,7 @@ on:
         required: true
         type: string
 
-
-
+        
 jobs:
   Migrate:
     runs-on: ubuntu-latest
@@ -35,11 +34,9 @@ jobs:
     - name: Initialize Terraform
       run: terraform init -backend-config="bucket=bucketforterraformangit" -backend-config="key=develop/terraform.tfstate" -backend-config="region=us-east-1"
   
-    - name: Apply Terraform
-      run: terraform apply -var 'instance_name= ${{inputs.instance_name}}' -input=false -auto-approve
-    # - name: pull
-    #   run: |
-    #        terraform state pull > terraform.tfstate
+    - name: pull
+      run: |
+           terraform state pull > terraform.tfstate
     - name: CHeck 
       run: |
          ls -la 
