@@ -19,9 +19,13 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: us-east-1
 
+        
+    - name: Initialize Terraform
+      run: terraform init -backend-config="bucket=bucketforterraformangit" -backend-config="key=develop/terraform.tfstate" -backend-config="region=us-east-1"
+  
     - name: Pull state from S3
       run: terraform state pull > terraform.tfstate
-      
+
     - name: Configure Terraform Cloud credentials
       run: echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_CLOUD_TOKEN }}\" }" > ~/.terraformrc
       env:
