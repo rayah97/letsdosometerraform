@@ -47,7 +47,7 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
     - name: Configure Terraform Cloud backend
-      run: terraform init -backend=remote  -backend-config="hostname=app.terraform.io" -backend-config="organization=terraform-rayah" -backend-config="workspaces.name=my-workspace"
+      run: terraform init -backend=remote  -backend-config="hostname=app.terraform.io" -backend-config="organization=terraform-rayah" -backend-config="workspaces.name=my-new-workspace"
 
 
     - name: Push state to Terraform Cloud
