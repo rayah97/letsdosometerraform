@@ -38,6 +38,13 @@ jobs:
          ls -la 
     - name: Check 2
       run: cat terraform.tfstate
+
+    - name: Print working directory and file path
+      run: |
+         echo "Working directory: $(pwd)"
+          echo "File path: $(ls -la terraform.tfstate)"
+
+
     - name: Migrate state to Terraform Cloud
       run: terraform state push  terraform.tfstate
 
