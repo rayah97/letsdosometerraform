@@ -40,6 +40,6 @@ jobs:
     - name: Push state to Terraform Cloud
       run: |
         echo "Pushing state to Terraform Cloud..."
-        terraform state pull > terraform.tfstate
+
         terraform state push terraform.tfstate
 
