@@ -47,9 +47,9 @@ jobs:
       run: ls -la
     - name: cat 
       run: cat terraform.tfstate
-    # - name: Push state to Terraform Cloud
-    #   run: |
-    #     echo "Pushing state to Terraform Cloud..."
+    - name: Push state to Terraform Cloud
+      run: |
+        echo "Pushing state to Terraform Cloud..."
 
-    #     terraform state push -force terraform.tfstate 
+        terraform state push -force terraform.tfstate 
 
