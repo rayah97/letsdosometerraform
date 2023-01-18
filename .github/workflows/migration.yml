@@ -19,8 +19,12 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: us-east-1
-    - name: Configure Terraform Cloud credentials
-      run: echo "credentials" = "{\"app.terraform.io\":{\"token\":\"${{ secrets.TF_CLOUD_TOKEN }}\"}}" > ~/.terraformrc
+   
+    - name: Setup Terraform Cloud Credentials
+      uses: hashicorp/setup-terraform@v2
+      with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
     - name: Initialize Terraform
       run: terraform init -backend-config="bucket=bucketforterraformangit" -backend-config="key=develop/terraform.tfstate" -backend-config="region=us-east-1"
     - name: Migrate state to Terraform Cloud
