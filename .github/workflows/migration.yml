@@ -34,6 +34,8 @@ jobs:
     - name: CHeck 
       run: |
          ls -la 
+    - name: Check 2
+      run: terraform show
     - name: Migrate state to Terraform Cloud
-      run: terraform state push  ./terraform.tfstate -verbose
+      run: terraform state push  ./terraform.tfstate
 
