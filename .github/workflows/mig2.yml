@@ -1,0 +1,35 @@
+name: Terraform S3 to Cloud Migration
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  migration:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+
+    - name: Configure Terraform Cloud credentials
+      run: echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_CLOUD_TOKEN }}\" }" > ~/.terraformrc
+      env:
+        TF_CLOUD_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
+
+    - name: Configure Terraform Cloud backend
+      run: terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=terraform-rayah" -backend-config="workspaces.name=my-workspace"
+
+    - name: Pull state from S3
+      run: terraform state pull > terraform.tfstate
+
+    - name: Push state to Terraform Cloud
+      run: terraform state push terraform.tfstate
