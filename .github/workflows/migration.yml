@@ -27,6 +27,9 @@ jobs:
 
     - name: Initialize Terraform
       run: terraform init -backend-config="bucket=bucketforterraformangit" -backend-config="key=develop/terraform.tfstate" -backend-config="region=us-east-1"
+    - name: pull
+      run: |
+         terraform state pull
     - name: CHeck 
       run: |
          ls -la 
