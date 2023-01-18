@@ -1,0 +1,14 @@
+{
+    "credentials": {
+      "app.terraform.io": {
+        "token": "01Kwz82zVZMfcg.atlasv1.zfFhXDpEntRBBZnUUZ6D9LJeXL5BpWkHYpuD0yugoPHuyWFH3Jyy2zirxw1Yzk9taSI"
+      }
+    },
+    "organization": "terraform-rayah",
+    "workspaces": {
+      "YOUR_WORKSPACE": {
+        "name": "my-new-workspace"
+      }
+    }
+  }
+  
