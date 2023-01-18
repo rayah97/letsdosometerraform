@@ -33,3 +33,7 @@ jobs:
 
     - name: Check
       run: ls -la
+
+    - name: Terraform init
+      run: terraform init 
+      
