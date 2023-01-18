@@ -1,0 +1,29 @@
+name: Terraform Cloud Migration
+
+on:
+  workflow_dispatch:
+    
+
+jobs:
+  migrate-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Authenticate with Terraform Cloud
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15.0
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+
+    - name: Configure Terraform Cloud backend
+      run: |
+        terraform init \
+          -backend-config="organization=my-org" \
+          -backend-config="workspaces.name=my-workspace"
+
+    - name: Apply Terraform changes
+      run: terraform apply -auto-approve
