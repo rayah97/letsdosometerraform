@@ -1,31 +1,30 @@
-name: Terraform Cloud Migration
+name: Terraform State Pull
 
 on:
   workflow_dispatch:
     
 
 jobs:
-  migrate-backend:
+  pull-state:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Authenticate with Terraform Cloud
-      uses: hashicorp/setup-terraform@v1
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        terraform_version: 0.15.0
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-
-
-    - name: Configure Terraform Cloud backend
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Check2
+      run: ls -la
+    - name: Download Terraform state from S3
       run: |
-        terraform init \
-         -backend=terraform-cloud \
-
-          -backend-config="organization=my-org" \
-          -backend-config="workspaces.name=my-workspace"
-
-    - name: Apply Terraform changes
-      run: terraform apply -auto-approve
+        aws s3 cp s3://bucketforterraformangit/develop/terraform.tfstate .
+    - name: Check2
+      run: ls -la  
+    - name: Terraform State Pull
+      run: terraform state pull
+    - name: Check2
+      run: ls -la
