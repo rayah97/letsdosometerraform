@@ -34,6 +34,8 @@ jobs:
     - name: Check
       run: ls -la
 
-    - name: Terraform init
-      run: terraform init 
-      
+    - name: Push state to Terraform Cloud
+      run: |
+        echo "Pushing state to Terraform Cloud..."
+        terraform state push ./terraform.tfstate
+
