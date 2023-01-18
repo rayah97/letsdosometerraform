@@ -25,7 +25,7 @@ jobs:
       run: |
         echo "Logging in to Terraform Cloud..."
         echo "terraform login -hostname=app.terraform.io -token=${{  secrets.TF_CLOUD_TOKEN }}"
-        terraform login -hostname=app.terraform.io -token=${{  secrets.TF_CLOUD_TOKEN }} -organization=terraform-rayah" 
+        terraform login -hostname=app.terraform.io -token=${{  secrets.TF_CLOUD_TOKEN }} -organization=terraform-rayah
         -workspace=my-new-workspace
     
     - name: Download remote state file
