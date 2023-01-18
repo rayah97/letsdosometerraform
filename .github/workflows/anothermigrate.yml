@@ -46,7 +46,8 @@ jobs:
       run: cat terraform.tfstate
     - name: Set TF_CLI_CONFIG_FILE
       run: echo "export TF_CLI_CONFIG_FILE=${{github.workspace}}/terraform.tfrc.json" >> $GITHUB_ENV
-
+    - name: Login to Terraform Cloud
+      run: terraform login -token=${TF_API_TOKEN}
          
     - name: Push state to Terraform Cloud
       run: |
