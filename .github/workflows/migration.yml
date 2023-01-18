@@ -22,10 +22,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: us-east-1
    
-    - name: Setup Terraform Cloud Credentials
-      uses: hashicorp/setup-terraform@v2
-      with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+   
 
     - name: Initialize Terraform
       run: terraform init -backend-config="bucket=bucketforterraformangit" -backend-config="key=develop/terraform.tfstate" -backend-config="region=us-east-1"
@@ -44,7 +41,15 @@ jobs:
          echo "Working directory: $(pwd)"
           echo "File path: $(ls -la terraform.tfstate)"
 
+    - name: Setup Terraform Cloud Credentials
+      uses: hashicorp/setup-terraform@v2
+      with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-    - name: Migrate state to Terraform Cloud
-      run: terraform state push  /home/runner/work/letsdosometerraform/letsdosometerraform/terraform.tfstate
+    - name: Configure Terraform Cloud backend
+      run: terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=terraform-rayah" -backend-config="workspaces.name=my-workspace"
 
+
+    - name: Push state to Terraform Cloud
+      run: terraform state push terraform.tfstate
+    
