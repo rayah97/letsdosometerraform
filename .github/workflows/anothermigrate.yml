@@ -36,7 +36,10 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Initialize Terraform
-      run: $ terraform init  -reconfigure    
+      run: $ terraform init \
+          -backend-config="hostname = "app.terraform.io""" \
+          -backend-config="organization = "company""" \
+          -backend-config="workspaces.name=my-new-workspace"   
            
     - name: Check2
       run: ls -la
