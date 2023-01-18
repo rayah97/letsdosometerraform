@@ -22,6 +22,8 @@ jobs:
     - name: Configure Terraform Cloud backend
       run: |
         terraform init \
+         -backend=terraform-cloud \
+
           -backend-config="organization=my-org" \
           -backend-config="workspaces.name=my-workspace"
 
