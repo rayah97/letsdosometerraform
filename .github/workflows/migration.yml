@@ -35,7 +35,7 @@ jobs:
       run: |
          ls -la 
     - name: Check 2
-      run: terraform show
+      run: cat terraform.tfstate
     - name: Migrate state to Terraform Cloud
       run: terraform state push  ./terraform.tfstate
 
