@@ -35,5 +35,5 @@ jobs:
       run: |
          ls -la 
     - name: Migrate state to Terraform Cloud
-      run: terraform state push  -force ./terraform.tfstate 
+      run: terraform state push  ./terraform.tfstate -verbose
 
