@@ -22,10 +22,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: us-east-1
     - name: Login to Terraform Cloud
-      run: |
-        echo "Logging in to Terraform Cloud..."
-        echo "terraform login -hostname=app.terraform.io -token=${{  secrets.TF_CLOUD_TOKEN }}"
-        terraform login -hostname=app.terraform.io -token=${{  secrets.TF_CLOUD_TOKEN }} 
+      uses: hashicorp/setup-terraform@v2
+      with:
+        cli_config_credentials_hostname: 'terraform.example.com'
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Download remote state file
       run: |
         echo "Fetching remote state file from S3..."
