@@ -11,3 +11,11 @@ One workflow that migrates the state to the terraform cloud and another one that
 
 
 -migrate-state  -backend-config=" organization=terraform-rayah workspaces.name=my-new-workspace"
+
+
+- name: Download remote state file
+      run: |
+        echo "Fetching remote state file from S3..."
+        aws s3 cp s3://bucketforterraformangit/develop/terraform.tfstate .
+   
+
