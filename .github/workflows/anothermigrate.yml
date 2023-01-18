@@ -43,6 +43,8 @@ jobs:
            
     - name: Check2
       run: ls -la
+    - name: cat 
+      run: cat terraform.tfstate
     - name: Push state to Terraform Cloud
       run: |
         echo "Pushing state to Terraform Cloud..."
