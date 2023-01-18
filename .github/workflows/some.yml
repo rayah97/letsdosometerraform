@@ -20,14 +20,14 @@ jobs:
 
     - name: Check2
       run: ls -la
-    - name: Download Terraform state from S3
-      run: |
-        aws s3 cp s3://bucketforterraformangit/develop/terraform.tfstate .
+    # - name: Download Terraform state from S3
+    #   run: |
+    #     aws s3 cp s3://bucketforterraformangit/develop/terraform.tfstate .
     - name: Check2
       run: ls -la  
 
     - name: Terraform Init
-      run: terraform init -backend-config=bucket=bucketforterraformangit -backend-config=key=terraform.tfstate -reconfigure
+      run: terraform init -backend-config=bucket=bucketforterraformangit -backend-config=key=terraform.tfstate -reconfigure - -auto-approve
     - name: Terraform State Pull
       run: terraform state pull
     # - name: Check2
