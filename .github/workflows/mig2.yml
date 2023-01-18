@@ -1,9 +1,7 @@
 name: Terraform S3 to Cloud Migration
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   migration:
