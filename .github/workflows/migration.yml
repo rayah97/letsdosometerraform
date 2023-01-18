@@ -18,14 +18,9 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-1
+      - name: Configure Terraform Cloud credentials
+        run: echo "credentials" = "{\"app.terraform.io\":{\"token\":\"${{ secrets.TF_CLOUD_TOKEN }}\"}}" > ~/.terraformrc
       - name: Initialize Terraform
-        run: |
-          terraform init
-      - name: Configure Remote Backend
-        run: |
-          terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=terraform-rayah" -backend-config="token=${TF_CLOUD_TOKEN}"
-          terraform workspace new my-new-workspace
-      - name: Migrate State
-        run: |
-          terraform state pull > terraform.tfstate
-          terraform state push terraform.tfstate
+        run: terraform init -backend-config="bucket=bucketforterraformangit" -backend-config="key=develop/terraform.tfstate" -backend-config="region= us-east-1"
+      - name: Migrate state to Terraform Cloud
+        run: terraform state push -name="${{ env.GITHUB_SHA }}"
