@@ -37,7 +37,7 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Initialize Terraform
       run: 
-        terraform init -migrate-state  -backend-config="hostname=app.terraform.io organization=terraform-rayah workspaces.name=my-new-workspace"
+        terraform init -migrate-state  -backend-config=" organization=terraform-rayah workspaces.name=my-new-workspace"
 
            
     - name: Check2
