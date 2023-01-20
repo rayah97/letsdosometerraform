@@ -81,8 +81,6 @@ resource "aws_instance" "main" {
     region = "us-east-1"
   }
 }
-key_name = "my_key"
-
 output "public_ip" {
   value = aws_instance.main.public_ip
 }
