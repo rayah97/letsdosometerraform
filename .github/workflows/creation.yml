@@ -45,9 +45,6 @@ jobs:
           aws-region: us-east-1
       - name: Terraform Init
         run: terraform init
-          -backend-config="bucket= "${ inputs.name_prefix}-bucket"
-          -backend-config="key=terraform.tfstate"
-          -backend-config="region="${ inputs.aws_region }""
 
       - name: Create variables file
         run: |
