@@ -60,7 +60,7 @@ jobs:
       - name: Get EC2 instance IP
         id: get_ip
         run: |
-          export TF_VAR_instance_ip=$(terraform output instance_ip)
+          export TF_VAR_instance_ip=$(terraform output public_ip)
           echo "TF_VAR_instance"
 
       - name: Test website
