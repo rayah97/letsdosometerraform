@@ -1,43 +1,49 @@
 provider "aws" {
-  region = "us-east-1"
-}
-variable "instance_name" {
-  type        = string
-  description = "The name tag of the ec2 instance"
+  region = var.region
 }
 
-# resource "aws_s3_bucket" "tf_state_bucket" {
-#   bucket = "bucketforterraformangitGIThub"
-#   acl    = "private"
-#   versioning {
-#     enabled = true
-#   }
-# }
+resource "aws_s3_bucket" "tf_state_bucket" {
+  bucket = "${var.name_prefix}-bucket"
+  acl    = "private"
+  versioning {
+    enabled = true
+  }
+}
 
+resource "aws_s3_bucket_object" "tf_state_file" {
+  bucket = aws_s3_bucket.tf_state_bucket.id
+  key    = "terraform.tfstate"
+}
 
-# resource "aws_s3_bucket_object" "tf_state_file" {
-#   bucket = aws_s3_bucket.tf_state_bucket.id
-#   key    = "develop/terraform.tfstate"
-# }
-
-resource "aws_vpc" "example" {
+resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "${var.name_prefix}-vpc"
+  }
 }
 
-resource "aws_subnet" "example" {
-  vpc_id     = aws_vpc.example.id
-  cidr_block = "10.0.1.0/24"
+resource "aws_subnet" "main" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.subnet_cidr
+  tags = {
+    Name = "${var.name_prefix}-subnet"
+  }
 }
 
-resource "aws_network_interface" "example" {
-  subnet_id = aws_subnet.example.id
-  private_ips = ["10.0.1.10"]
+resource "aws_network_interface" "main" {
+  subnet_id = aws_subnet.main.id
+
+  private_ips = ["10.0.1.100"]
+
+  tags = {
+    Name = "${var.name_prefix}-interface"
+  }
 }
 
-resource "aws_security_group" "example" {
-  name        = "example"
-  description = "Example security group"
-  vpc_id      = aws_vpc.example.id
+resource "aws_security_group" "main" {
+  name        = "${var.name_prefix}-sg"
+  description = "Allow HTTP traffic"
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port   = 80
@@ -45,25 +51,31 @@ resource "aws_security_group" "example" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
-resource "aws_instance" "example" {
-  ami           = "ami-0c94855ba95c71c99"
-  instance_type = "t2.micro"
+resource "aws_instance" "main" {
+  ami           = var.ami
+  instance_type = var.instance_type
+
   network_interface {
-    network_interface_id = aws_network_interface.example.id
+    network_interface_id = aws_network_interface.main.id
     device_index         = 0
   }
-     tags = {
-    Name = "${var.instance_name}"
+
+  tags = {
+    Name = "${var.name_prefix}-instance"
   }
 }
 
 terraform {
   backend "s3" {
-    bucket = "bucketforterraformangit"
-    key    = "develop/terraform.tfstate"
-    region = "us-east-1"
   }
 }
 

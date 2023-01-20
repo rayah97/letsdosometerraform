@@ -10,7 +10,6 @@ You need to have an infrastructure creation workflow that takes all the possible
 One workflow that migrates the state to the terraform cloud and another one that destroys the infrastructure.
 
 
--migrate-state  -backend-config=" organization=terraform-rayah workspaces.name=my-new-workspace"
 
 
 - name: Download remote state file
