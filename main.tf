@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "tf_state_bucket" {
-  bucket = "${var.name_prefix}-bucket"
+  bucket = "terraformgit-bucketr"
   acl    = "private"
   versioning {
     enabled = true
@@ -76,6 +76,10 @@ resource "aws_instance" "main" {
 
 terraform {
   backend "s3" {
+    bucket = "terraformgit-bucketr"
+    key = "terraform.tfstate"
+    region = "us-east-1"
+    
   }
 }
 
