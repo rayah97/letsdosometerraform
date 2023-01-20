@@ -81,7 +81,10 @@ resource "aws_instance" "main" {
     region = "us-east-1"
   }
 }
-
+resource "aws_key_pair" "my_key" {
+  key_name   = "my_key"
+  public_key = file("~/.ssh/my_key.pub")
+}
 
 output "public_ip" {
   value = aws_instance.main.public_ip
