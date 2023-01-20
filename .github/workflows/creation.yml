@@ -57,7 +57,11 @@ jobs:
 
       - name: Apply Terraform
         run: terraform apply -auto-approve -var-file=variables.tfvars -input=false
+      - name: Get EC2 instance IP
+        id: get_ip
+        run: |
+          export TF_VAR_instance_ip=$(terraform output instance_ip)
+
       - name: Test website
         run: |
-          ssh -i "~/.ssh/aws-key.pem" ec2-user@$(terraform output public_ip) 'curl localhost'
-   
+          curl http://${{ steps.get_ip.outputs.instance_ip }}
