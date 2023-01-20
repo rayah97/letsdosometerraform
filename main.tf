@@ -74,13 +74,28 @@ resource "aws_instance" "main" {
     Name = "${var.name_prefix}-instance"
   }
 }
-resource "aws_eip" "main" {
-  vpc = true
+resource "aws_internet_gateway" "example" {
+  vpc_id = aws_vpc.example.id
 }
 
-resource "aws_eip_association" "main" {
-  instance_id = aws_instance.main.id
-  public_ip = aws_eip.main.public_ip
+resource "aws_subnet" "public_subnet" {
+  vpc_id                  = aws_vpc.example.id
+  cidr_block              = "10.0.1.0/24"
+  availability_zone       = "us-west-2a"
+  map_public_ip_on_launch = true
+}
+
+resource "aws_route_table" "public_subnet" {
+  vpc_id = aws_vpc.example.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.example.id
+  }
+}
+
+resource "aws_route_table_association" "public_subnet" {
+  subnet_id      = aws_subnet.public_subnet.id
+  route_table_id = aws_route_table.public_subnet.id
 }
 
 
