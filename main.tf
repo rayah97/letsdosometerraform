@@ -2,18 +2,18 @@ provider "aws" {
   region = var.region
 }
 
-resource "aws_s3_bucket" "tf_state_bucket" {
-  bucket = "terraformgit-bucketr"
-  acl    = "private"
-  versioning {
-    enabled = true
-  }
-}
+# resource "aws_s3_bucket" "tf_state_bucket" {
+#   bucket = "terraformgit-bucketr"
+#   acl    = "private"
+#   versioning {
+#     enabled = true
+#   }
+# }
 
-resource "aws_s3_bucket_object" "tf_state_file" {
-  bucket = aws_s3_bucket.tf_state_bucket.id
-  key    = "terraform.tfstate"
-}
+# resource "aws_s3_bucket_object" "tf_state_file" {
+#   bucket = aws_s3_bucket.tf_state_bucket.id
+#   key    = "terraform.tfstate"
+# }
 
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
@@ -74,12 +74,11 @@ resource "aws_instance" "main" {
   }
 }
 
-terraform {
+ terraform {
   backend "s3" {
-    bucket = "terraformgit-bucketr"
-    key = "terraform.tfstate"
+    bucket = "bucketforterraformangit"
+    key    = "terraform.tfstate"
     region = "us-east-1"
-    
   }
 }
 
