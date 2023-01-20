@@ -49,7 +49,7 @@ jobs:
       - name: Create variables file
         run: |
           echo "instance_name = \"${{ inputs.instance_name }}\"" >> variables.tfvars
-          echo "aws_region = \"${{} inputs.aws_region }}\"" >> variables.tfvars
+          echo "aws_region = \"${{ inputs.aws_region }}\"" >> variables.tfvars
           echo "name_prefix = \"${{ inputs.name_prefix }}\"" >> variables.tfvars
           echo "instance_type = \"${{ inputs.instance_type }}\"" >> variables.tfvars
           echo "ami = \"${{ inputs.ami }}\"" >> variables.tfvars
