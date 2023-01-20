@@ -74,6 +74,15 @@ resource "aws_instance" "main" {
     Name = "${var.name_prefix}-instance"
   }
 }
+resource "aws_eip" "main" {
+  vpc = true
+}
+
+resource "aws_eip_association" "main" {
+  instance_id = aws_instance.main.id
+  public_ip = aws_eip.main.public_ip
+}
+
 
  terraform {
   backend "s3" {
