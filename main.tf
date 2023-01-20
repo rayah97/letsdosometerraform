@@ -63,7 +63,7 @@ resource "aws_security_group" "main" {
 resource "aws_instance" "main" {
   ami           = var.ami
   instance_type = var.instance_type
-  key_name = aws_key_pair.my_key.key_name
+  key_name = "my_key"
 
   network_interface {
     network_interface_id = aws_network_interface.main.id
@@ -82,10 +82,7 @@ resource "aws_instance" "main" {
     region = "us-east-1"
   }
 }
-resource "aws_key_pair" "my_key" {
-  key_name   = "my_key"
-  
-}
+key_name = "my_key"
 
 output "public_ip" {
   value = aws_instance.main.public_ip
