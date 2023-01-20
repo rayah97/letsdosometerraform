@@ -61,6 +61,7 @@ jobs:
         id: get_ip
         run: |
           export TF_VAR_instance_ip=$(terraform output instance_ip)
+          echo "TF_VAR_instance"
 
       - name: Test website
         run: |
