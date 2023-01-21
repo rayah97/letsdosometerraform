@@ -50,6 +50,9 @@ jobs:
 
     - name: terraform apply
       run: terraform apply 
+
+    - name: check 2
+      run: ls -la
     # - name: Push state to Terraform Cloud
     #   run: |
     #     terraform state push  
