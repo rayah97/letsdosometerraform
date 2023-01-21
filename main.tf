@@ -20,7 +20,7 @@ resource "aws_subnet" "main" {
 
 resource "aws_network_interface" "main" {
   subnet_id = aws_subnet.main.id
-
+  vpc_id = aws_vpc.main.id
   tags = {
     Name = "${var.name_prefix}-interface"
   }
