@@ -50,7 +50,7 @@ jobs:
 
     
     - name: Terraform init
-      run: terraform init -migrate-state
+      run: terraform init 
 
 
     # - name: terraform apply
