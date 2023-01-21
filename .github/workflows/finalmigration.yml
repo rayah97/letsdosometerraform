@@ -35,6 +35,6 @@ jobs:
     - name: Terraform init
       run: terraform init 
 
-    # - name: Push state to Terraform Cloud
-    #   run: |
-    #     terraform state push -force terraform.tfstate  
+    - name: Push state to Terraform Cloud
+      run: |
+        terraform state push  
