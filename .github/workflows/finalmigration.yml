@@ -26,6 +26,12 @@ jobs:
       uses: hashicorp/setup-terraform@v2
       with:
         cli_config_credentials_token: ${{ secrets.TF_CLOUD_TOKEN }}
+
+    - name: Download remote state file
+      run: |
+        echo "Fetching remote state file from S3..."
+        aws s3 cp s3://bucketforterraformangit/terraform.tfstate .
+   
     - name: Configure Terraform Cloud backend
       run: |
         echo "terraform {
@@ -41,6 +47,7 @@ jobs:
     - name: check 333
       run: cat override.tf
   
+
     
     - name: Terraform init
       run: terraform init -migrate-state
