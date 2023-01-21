@@ -49,7 +49,7 @@ jobs:
       run: cat terraform.tfstate
 
     - name: Terraform init
-      run: terraform init  -backend-config= /terraform.tfstate"
+      run: terraform init  -backend-config= /terraform.tfstate
 
     - name: Push state to Terraform Cloud
       run: |
