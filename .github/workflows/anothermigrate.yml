@@ -45,7 +45,10 @@ jobs:
     - name: Cat file
       run: cat  terraform.tfstate
     
+    - name: Pull state 
+      run: terraform state pull
 
+      
     - name: Terraform init
       run: terraform init  -backend-config=terraform.tfstate
 
