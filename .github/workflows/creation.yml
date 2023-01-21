@@ -57,13 +57,10 @@ jobs:
 
       - name: Apply Terraform
         run: terraform apply -auto-approve -var-file=variables.tfvars -input=false
-      - name: Get EC2 instance IP
-        id: get_ip
-        run: |
-          export TF_VAR_instance_ip=$(terraform output public_ip)
-          echo "TF_VAR_instance"
+      - name: Get the Public IP of the EC2 instance
+        run: terraform output public_ip
 
-      - name: Curl the website
+      - name: Test the website
         run: |
-          public_ip=$(terraform output public_ip)
-          curl http://$public_ip
+          IP=$(terraform output public_ip)
+          curl http://$IP
