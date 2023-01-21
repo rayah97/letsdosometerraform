@@ -54,7 +54,6 @@ jobs:
           echo "instance_type = \"${{ inputs.instance_type }}\"" >> variables.tfvars
           echo "ami = \"${{ inputs.ami }}\"" >> variables.tfvars
 
-
       - name: Apply Terraform
         run: terraform apply -auto-approve -var-file=variables.tfvars -input=false
       - name: Get the Public IP of the EC2 instance
@@ -64,4 +63,3 @@ jobs:
       #     IP=$(terraform output public_ip)
       #     echo $IP
       #     curl http://$IP
-          
