@@ -19,9 +19,9 @@ jobs:
       run: |
         echo "terraform {
           backend \"remote\" {
-            organization = \"my-org\"
+            organization = \"terraform-rayah\"
             workspaces {
-              name = \"my-workspace\"
+              name = \"my-new-workspace\"
             }
           }
         }" > override.tf
@@ -31,10 +31,10 @@ jobs:
     - name: Check
       run: ls -la
 
-    # - name: Login to Terraform Cloud
-    #   uses: hashicorp/setup-terraform@v2
-    #   with:
-    #     cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    - name: Login to Terraform Cloud
+      uses: hashicorp/setup-terraform@v2
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
            
     # - name: Check2
     #   run: ls -la
