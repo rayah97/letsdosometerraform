@@ -50,14 +50,7 @@ resource "aws_security_group" "main" {
 resource "aws_instance" "main" {
   ami           = var.ami
   instance_type = var.instance_type
-  user_data = << EOF
-		#! /bin/bash
-    sudo apt-get update
-		sudo apt-get install -y apache2
-		sudo systemctl start apache2
-		sudo systemctl enable apache2
-		echo "<h1>Deployed via Terraform</h1>" | sudo tee /var/www/html/index.html
-	EOF
+  user_data     = file("init-script.sh")
 
   network_interface {
     network_interface_id = aws_network_interface.main.id
