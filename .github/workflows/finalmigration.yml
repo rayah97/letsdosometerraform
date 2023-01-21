@@ -49,7 +49,7 @@ jobs:
       run: ls -la
 
     - name: terraform apply
-      run: terraform apply 
+      run: terraform apply -auto-approve
 
     - name: check 2
       run: ls -la
