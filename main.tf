@@ -34,15 +34,16 @@ resource "aws_network_interface" "main" {
   subnet_id = aws_subnet.main.id
  
 
-  private_ips = ["10.0.1.100"]
-
   tags = {
     Name = "${var.name_prefix}-interface"
   }
 }
-resource "aws_eip_association" "example" {
+ resource "aws_eip" "main" {
+  vpc = true
+}
+resource "aws_eip_association" "main" {
   public_ip = aws_eip.example.public_ip
-  network_interface_id = aws_network_interface.example.id
+  network_interface_id = aws_network_interface.main.id
 }
 
 
