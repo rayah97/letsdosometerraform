@@ -46,11 +46,15 @@ resource "aws_security_group" "main" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+resource "aws_key_pair" "main" {
+  key_name = "${var.name_prefix}-key"
+}
 
 resource "aws_instance" "main" {
   ami           = var.ami
   instance_type = var.instance_type
   user_data     = file("init-script.sh")
+  key_name      = aws_key_pair.main.key_name
 
   network_interface {
     network_interface_id = aws_network_interface.main.id
