@@ -46,16 +46,18 @@ jobs:
 
     
     - name: Terraform init
-      run: terraform init -backend-config=override.tf
+      run: terraform init .tf
 
 
     # - name: terraform apply
     #   run: terraform apply -auto-approve
-    - name: state pull
-      run: terraform plan 
+    - name: Download remote state file
+      run: |
+          echo "Fetching remote state file from S3..."
+          aws s3 cp s3://bucketforterraformangit/terraform.tfstate .
 
     - name: check 2
       run: ls -la
-    # - name: Push state to Terraform Cloud
-    #   run: |
-    #     terraform state push 
+    - name: Push state to Terraform Cloud
+      run: |
+        terraform state push terraform.tfstate
