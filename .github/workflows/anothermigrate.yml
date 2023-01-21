@@ -50,7 +50,7 @@ jobs:
          echo "Path to terraform.tfstate: ${{ env.GITHUB_WORKSPACE }}/terraform.tfstate"
 
     - name: Terraform init
-      run: terraform init  -backend-config=/terraform.tfstate
+      run: terraform init  -backend-config=${{ env.GITHUB_WORKSPACE }}/terraform.tfstate
 
     - name: Push state to Terraform Cloud
       run: |
