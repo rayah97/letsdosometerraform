@@ -17,18 +17,18 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.14.7
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{secrets.AWS_SECRET_KEY}}
-          aws-region: us-east-1
-      # - name: Configure Terraform Cloud credentials
-      #   uses: hashicorp/setup-terraform@v1
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
       #   with:
-      #     cli_config_credentials_token: ${{ secrets.TF_CLOUD_TOKEN }}
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+      #     aws-secret-access-key: ${{secrets.AWS_SECRET_KEY}}
+      #     aws-region: us-east-1
+      - name: Configure Terraform Cloud credentials
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_CLOUD_TOKEN }}
       - name: Initialize Terraform
         run: terraform init
       - name: Destroy EC2 instance
-        run: terraform destroy  -var 'instance_name= ${{inputs.instance_name}}'  -auto-approve  -input=false 
+        run: terraform destroy   -auto-approve  -input=false 
           

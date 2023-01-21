@@ -38,26 +38,20 @@ jobs:
             }
           }
         }" > override.tf
-    - name: check 1
-      run: ls -la
-    - name: check 333
-      run: cat override.tf
-  
-
     
     - name: Terraform init
       run: terraform init 
 
-
-    # - name: terraform apply
-    #   run: terraform apply -auto-approve
     - name: Download remote state file
       run: |
           echo "Fetching remote state file from S3..."
           aws s3 cp s3://bucketforterraformangit/terraform.tfstate .
 
-    - name: check 2
-      run: ls -la
     - name: Push state to Terraform Cloud
       run: |
         terraform state push terraform.tfstate
+
+    - name: Remove the remote state file
+      run: |
+          echo "Deleting remote state file from S3..."
+          aws s3 rm s3://bucketforterraformangit/terraform.tfstate 
