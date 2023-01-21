@@ -43,7 +43,7 @@ jobs:
   
     
     - name: Terraform init
-      run: terraform init 
+      run: terraform init -migrate-state
  
     - name: check 2
       run: ls -la
@@ -55,6 +55,6 @@ jobs:
 
     - name: check 2
       run: ls -la
-    - name: Push state to Terraform Cloud
-      run: |
-        terraform state push override.tf
+    # - name: Push state to Terraform Cloud
+    #   run: |
+    #     terraform state push 
