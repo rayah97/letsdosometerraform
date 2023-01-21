@@ -32,6 +32,8 @@ resource "aws_subnet" "main" {
 
 resource "aws_network_interface" "main" {
   subnet_id = aws_subnet.main.id
+  associate_public_ip_address = true
+
 
   private_ips = ["10.0.1.100"]
 
@@ -63,7 +65,6 @@ resource "aws_security_group" "main" {
 resource "aws_instance" "main" {
   ami           = var.ami
   instance_type = var.instance_type
-  associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.main.id]
 
 
