@@ -45,8 +45,9 @@ jobs:
    
     - name: Check2
       run: ls -la
-    - name: cat 
-      run: cat terraform.tfstate
+    - name: echo pwd
+      run: |
+         echo "Path to terraform.tfstate: ${{ env.GITHUB_WORKSPACE }}/terraform.tfstate"
 
     - name: Terraform init
       run: terraform init  -backend-config=/terraform.tfstate
