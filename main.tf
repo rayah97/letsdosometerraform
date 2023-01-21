@@ -12,6 +12,7 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "main" {
   vpc_id            = aws_vpc.main.id
   cidr_block = "10.0.1.0/24"
+  map_public_ip_on_launch = true
   tags = {
     Name = "${var.name_prefix}-subnet"
   }
@@ -25,14 +26,8 @@ resource "aws_network_interface" "main" {
   }
 }
 
-resource "aws_eip" "main" {
-  vpc = true
-}
 
-resource "aws_eip_association" "main" {
-  allocation_id = aws_eip.main.id
-  network_interface_id = aws_network_interface.main.id
-}
+
 
 
 resource "aws_security_group" "main" {
@@ -59,7 +54,7 @@ resource "aws_instance" "main" {
   ami           = var.ami
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
-  associate_public_ip_address = false
+  
 
   network_interface {
     network_interface_id = aws_network_interface.main.id
