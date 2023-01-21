@@ -79,5 +79,4 @@ terraform {
   }
 }
 
-output "public_ip" {
  
