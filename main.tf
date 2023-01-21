@@ -48,7 +48,6 @@ resource "aws_security_group" "main" {
 }
 resource "aws_key_pair" "main" {
   key_name = "${var.name_prefix}-key"
-  public_key = file("/public_key.pub")
 }
 
 
