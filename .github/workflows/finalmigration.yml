@@ -50,7 +50,7 @@ jobs:
 
     
     - name: Terraform init
-      run: terraform init -migrate-state -input=false
+      run: terraform init -migrate-state=true
 
 
     # - name: terraform apply
