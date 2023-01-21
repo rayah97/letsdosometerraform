@@ -46,7 +46,7 @@ jobs:
       run: cat  terraform.tfstate
     
     - name: Terraform init
-      run: terraform init  -backend-config=terraform.tfstate -migrate-state
+      run: terraform init   -migrate-state
 
     - name: Push state to Terraform Cloud
       run: |
