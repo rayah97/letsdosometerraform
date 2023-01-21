@@ -20,6 +20,7 @@ resource "aws_subnet" "main" {
 
 resource "aws_network_interface" "main" {
   subnet_id = aws_subnet.main.id
+  security_groups      = [aws_security_group.main.id]
   tags = {
     Name = "${var.name_prefix}-interface"
   }
