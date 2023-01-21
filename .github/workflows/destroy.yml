@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
     inputs:
       instance_name:
-        description: "Instance name"
-        required: true
-        type: string
+        # description: "Instance name"
+        # required: true
+        # type: string
 
 jobs:
   destroy_instance:
