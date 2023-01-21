@@ -25,7 +25,6 @@ resource "aws_network_interface" "main" {
   }
 }
 
-
 resource "aws_security_group" "main" {
   name        = "${var.name_prefix}-sg"
   description = "Allow HTTP traffic"
