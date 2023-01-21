@@ -59,7 +59,8 @@ jobs:
         run: terraform apply -auto-approve -var-file=variables.tfvars -input=false
       - name: Get the Public IP of the EC2 instance
         run: terraform output public_ip
-
+      - name: check the IP variable
+        run: echo $IP
       - name: Test the website
         run: |
           IP=$(terraform output public_ip)
