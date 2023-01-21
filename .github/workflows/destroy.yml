@@ -2,11 +2,30 @@ name: Destroy AWS Infastructure
 on:
   workflow_dispatch:
     inputs:
-      # instance_name:
-        # description: "Instance name"
-        # required: true
-        # type: string
+      instance_name:
+        description: "Type the name of the AWS EC2 "
+        required: true
+        type: string
 
+      aws_region:
+        description: "Type the AWS region "
+        required: false
+        type: string
+
+      name_prefix:
+        description: "Type prefixed to add AWS resource names"
+        required: false
+        type: string
+
+      instance_type:
+        description: "AwS EC2 instance types "
+        required: false
+        type: string
+
+      ami:
+        description: "The AMI of the EC2 instance "
+        required: false
+        type: string
 jobs:
   destroy_instance:
     runs-on: ubuntu-latest
@@ -17,6 +36,14 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.14.7
+      - name: Create variables file
+        run: |
+          echo "instance_name = \"${{ inputs.instance_name }}\"" >> variables.tfvars
+          echo "aws_region = \"${{ inputs.aws_region }}\"" >> variables.tfvars
+          echo "name_prefix = \"${{ inputs.name_prefix }}\"" >> variables.tfvars
+          echo "instance_type = \"${{ inputs.instance_type }}\"" >> variables.tfvars
+          echo "ami = \"${{ inputs.ami }}\"" >> variables.tfvars
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -35,5 +62,5 @@ jobs:
       - name: Initialize Terraform
         run: terraform init
       - name: Destroy Terraform resources
-        run: terraform destroy   -auto-approve  -input=false 
+        run: terraform destroy -auto-approve -var-file=variables.tfvars -input=false
           
