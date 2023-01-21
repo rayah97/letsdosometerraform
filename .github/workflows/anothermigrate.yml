@@ -31,7 +31,7 @@ jobs:
       uses: hashicorp/setup-terraform@v2
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-        
+
     - name: Initialize Terraform
       run: 
         terraform init 
@@ -41,12 +41,15 @@ jobs:
     - name: Download remote state file
       run: |
         echo "Fetching remote state file from S3..."
-        aws s3 cp s3://bucketforterraformangit/develop/terraform.tfstate .
+        aws s3 cp s3://bucketforterraformangit/terraform.tfstate .
    
     - name: Check2
       run: ls -la
     - name: cat 
       run: cat terraform.tfstate
+
+    - name: Terraform apply
+      run: terraform init -backend-config="path=/terraform.tfstate"
     - name: Push state to Terraform Cloud
       run: |
         terraform state push -force terraform.tfstate 
