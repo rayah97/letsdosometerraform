@@ -50,4 +50,4 @@ jobs:
 
     - name: Push state to Terraform Cloud
       run: |
-        terraform state push -force terraform.tfstate 
+        terraform state push -force terraform.tfstate   -reconfigure 
