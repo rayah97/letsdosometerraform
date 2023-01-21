@@ -31,7 +31,6 @@ resource "aws_network_interface" "main" {
 resource "aws_eip_association" "main" {
   public_ip = aws_eip.main.public_ip
   network_interface_id = aws_network_interface.main.id
-  private_ip = aws_network_interface.main.private_ip
 }
 
 
