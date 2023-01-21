@@ -30,6 +30,8 @@ jobs:
         }" > override.tf
     - name: check 1
       run: ls -la
+    - name: check 333
+      run: cat override.tf
   
     
     - name: Terraform init
@@ -38,8 +40,8 @@ jobs:
     - name: check 2
       run: ls -la
 
-    - name: terraform apply
-      run: terraform apply -auto-approve
+    # - name: terraform apply
+    #   run: terraform apply -auto-approve
 
     - name: Push state to Terraform Cloud
       run: |
