@@ -37,16 +37,16 @@ jobs:
     - name: Download remote state file
       run: |
         echo "Fetching remote state file from S3..."
-        aws s3 cp s3://bucketforterraformangit/terraform.tfstate ${{ env.GITHUB_WORKSPACE }}/terraform.tfstate
+        aws s3 cp s3://bucketforterraformangit/terraform.tfstate .
    
     - name: Check2
       run: ls -la
-    - name: echo pwd
-      run: |
-         echo "Path to terraform.tfstate: ${{ env.GITHUB_WORKSPACE }}/terraform.tfstate"
+    # - name: echo pwd
+    #   run: |
+    #      echo "Path to terraform.tfstate: ${{ env.GITHUB_WORKSPACE }}/terraform.tfstate"
 
     - name: Terraform init
-      run: terraform init  -backend-config=${{ env.GITHUB_WORKSPACE }}/terraform.tfstate
+      run: terraform init  -backend-config=terraform.tfstate
 
     - name: Push state to Terraform Cloud
       run: |
