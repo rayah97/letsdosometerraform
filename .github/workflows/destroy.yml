@@ -28,10 +28,10 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.TF_CLOUD_TOKEN }}
 
-      - name: Setup Terraform Workspace
-        run: |
-          export TF_CLOUD_ORGANIZATION=terraform-rayah
-          export TF_CLOUD_WORKSPACE=my-new-workspace
+      # - name: Setup Terraform Workspace
+      #   run: |
+      #     export TF_CLOUD_ORGANIZATION=terraform-rayah
+      #     export TF_CLOUD_WORKSPACE=my-new-workspace
       - name: Initialize Terraform
         run: terraform init
       - name: Destroy Terraform resources
