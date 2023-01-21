@@ -32,8 +32,7 @@ resource "aws_subnet" "main" {
 
 resource "aws_network_interface" "main" {
   subnet_id = aws_subnet.main.id
-  associate_public_ip_address = true
-
+ 
 
   private_ips = ["10.0.1.100"]
 
@@ -41,6 +40,11 @@ resource "aws_network_interface" "main" {
     Name = "${var.name_prefix}-interface"
   }
 }
+resource "aws_eip_association" "example" {
+  public_ip = aws_eip.example.public_ip
+  network_interface_id = aws_network_interface.example.id
+}
+
 
 resource "aws_security_group" "main" {
   name        = "${var.name_prefix}-sg"
