@@ -56,7 +56,7 @@ jobs:
     # - name: terraform apply
     #   run: terraform apply -auto-approve
     - name: state pull
-      run: terraform state pull .
+      run: terraform plan 
 
     - name: check 2
       run: ls -la
