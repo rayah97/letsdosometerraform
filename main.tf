@@ -64,11 +64,13 @@ resource "aws_instance" "main" {
   ami           = var.ami
   instance_type = var.instance_type
   associate_public_ip_address = true
+  vpc_security_group_ids = [aws_security_group.main.id]
 
-  network_interface {
-    network_interface_id = aws_network_interface.main.id
-    device_index         = 0
-  }
+
+  # network_interface {
+  #   network_interface_id = aws_network_interface.main.id
+  #   device_index         = 0
+  # }
 
   tags = {
     Name = "${var.name_prefix}-instance"
