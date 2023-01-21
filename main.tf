@@ -2,19 +2,6 @@ provider "aws" {
   region = var.region
 }
 
-# resource "aws_s3_bucket" "tf_state_bucket" {
-#   bucket = "terraformgit-bucketr"
-#   acl    = "private"
-#   versioning {
-#     enabled = true
-#   }
-# }
-
-# resource "aws_s3_bucket_object" "tf_state_file" {
-#   bucket = aws_s3_bucket.tf_state_bucket.id
-#   key    = "terraform.tfstate"
-# }
-
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   tags = {
@@ -44,6 +31,7 @@ resource "aws_network_interface" "main" {
 resource "aws_eip_association" "main" {
   public_ip = aws_eip.example.public_ip
   network_interface_id = aws_network_interface.main.id
+  private_ip = aws_network_interface.main.private_ip
 }
 
 
