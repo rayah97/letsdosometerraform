@@ -1,66 +1,34 @@
-name: Destroy AWS Infastructure
+name: Terraform Destroy
+
 on:
   workflow_dispatch:
-    inputs:
-      instance_name:
-        description: "Type the name of the AWS EC2 "
-        required: true
-        type: string
 
-      aws_region:
-        description: "Type the AWS region "
-        required: false
-        type: string
-
-      name_prefix:
-        description: "Type prefixed to add AWS resource names"
-        required: false
-        type: string
-
-      instance_type:
-        description: "AwS EC2 instance types "
-        required: false
-        type: string
-
-      ami:
-        description: "The AMI of the EC2 instance "
-        required: false
-        type: string
 jobs:
-  destroy_instance:
+  destroy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.14.7
-      - name: Create variables file
-        run: |
-          echo "instance_name = \"${{ inputs.instance_name }}\"" >> variables.tfvars
-          echo "aws_region = \"${{ inputs.aws_region }}\"" >> variables.tfvars
-          echo "name_prefix = \"${{ inputs.name_prefix }}\"" >> variables.tfvars
-          echo "instance_type = \"${{ inputs.instance_type }}\"" >> variables.tfvars
-          echo "ami = \"${{ inputs.ami }}\"" >> variables.tfvars
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{secrets.AWS_SECRET_KEY}}
-          aws-region: us-east-1
-      - name: Login to Terraform Cloud
-        uses: hashicorp/setup-terraform@v2
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_CLOUD_TOKEN }}
+    - name: Login to Terraform Cloud
+      uses: hashicorp/setup-terraform@v2
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_CLOUD_TOKEN }}
 
-      # - name: Setup Terraform Workspace
-      #   run: |
-      #     export TF_CLOUD_ORGANIZATION=terraform-rayah
-      #     export TF_CLOUD_WORKSPACE=my-new-workspace
-      - name: Initialize Terraform
-        run: terraform init
-      - name: Destroy Terraform resources
-        run: terraform destroy -auto-approve -var-file=variables.tfvars -input=false
-          
+    - name: Configure Terraform Cloud backend
+      run: |
+        echo "terraform {
+          backend \"remote\" {
+            organization = \"terraform-rayah\"
+            workspaces {
+              name = \"my-new-workspace\"
+            }
+          }
+        }" > override.tf
+
+    - name: Terraform init
+      run: terraform init 
+
+    - name: Destroy infrastructure
+      run: terraform destroy -auto-approve
