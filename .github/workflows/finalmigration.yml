@@ -48,8 +48,10 @@ jobs:
     - name: check 2
       run: ls -la
 
-    - name: terraform apply
-      run: terraform apply -auto-approve
+    # - name: terraform apply
+    #   run: terraform apply -auto-approve
+    - name: state pull
+      run: terraform state pull
 
     - name: check 2
       run: ls -la
