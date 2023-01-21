@@ -74,6 +74,12 @@ resource "aws_instance" "main" {
     Name = "${var.name_prefix}-instance"
   }
 }
+
+
+resource "aws_eip" "main" {
+  vpc = true
+  instance = aws_instance.main.id
+}
 # resource "aws_internet_gateway" "example" {
 #   vpc_id = aws_vpc.example.id
 # }
