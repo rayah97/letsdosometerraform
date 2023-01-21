@@ -67,10 +67,10 @@ resource "aws_instance" "main" {
   vpc_security_group_ids = [aws_security_group.main.id]
 
 
-  # network_interface {
-  #   network_interface_id = aws_network_interface.main.id
-  #   device_index         = 0
-  # }
+  network_interface {
+    network_interface_id = aws_network_interface.main.id
+    device_index         = 0
+  }
 
   tags = {
     Name = "${var.name_prefix}-instance"
@@ -78,10 +78,10 @@ resource "aws_instance" "main" {
 }
 
 
-resource "aws_eip" "main" {
-  vpc = true
-  instance = aws_instance.main.id
-}
+# resource "aws_eip" "main" {
+#   vpc = true
+#   instance = aws_instance.main.id
+# }
 # resource "aws_internet_gateway" "example" {
 #   vpc_id = aws_vpc.example.id
 # }
