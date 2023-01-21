@@ -38,6 +38,9 @@ jobs:
     - name: check 2
       run: ls -la
 
+    - name: terraform apply
+      run: terraform apply -auto-approve
+
     - name: Push state to Terraform Cloud
       run: |
         terraform state push  
