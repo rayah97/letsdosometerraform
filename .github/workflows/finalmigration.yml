@@ -44,14 +44,12 @@ jobs:
     
     - name: Terraform init
       run: terraform init -migrate-state
- 
-    - name: check 2
-      run: ls -la
+
 
     # - name: terraform apply
     #   run: terraform apply -auto-approve
-    # - name: state pull
-    #   run: terraform state pull
+    - name: state pull
+      run: terraform state show
 
     - name: check 2
       run: ls -la
