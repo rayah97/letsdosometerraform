@@ -79,7 +79,7 @@ jobs:
         uses: kota65535/github-terraform-plan-comment-action@v1
         with:
           plan-job: plan
-          plan-step: Run terraform plan
+          plan-step: Terraform Plan
 
       # - name: Post Plan
       #   if: always() && github.ref != 'refs/heads/master' && (steps.plan.outcome == 'success' || steps.plan.outcome == 'failure')
