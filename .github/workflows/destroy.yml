@@ -2,7 +2,7 @@ name: Destroy AWS Infastructure
 on:
   workflow_dispatch:
     inputs:
-      instance_name:
+      # instance_name:
         # description: "Instance name"
         # required: true
         # type: string
