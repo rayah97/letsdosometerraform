@@ -9,6 +9,7 @@ variable "region" {
 }
 variable "instance_name" {
   type        = string
+  default ="myinstance"
   description = "The name tag of the ec2 instance"
 }
 
