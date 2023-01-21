@@ -63,6 +63,7 @@ jobs:
           export TF_VAR_instance_ip=$(terraform output public_ip)
           echo "TF_VAR_instance"
 
-      - name: Test website
+      - name: Curl the website
         run: |
-          curl http://${{ steps.get_ip.outputs.instance_ip }}
+          public_ip=$(terraform output public_ip)
+          curl http://$public_ip
