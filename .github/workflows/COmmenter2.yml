@@ -1,0 +1,30 @@
+name: terraform-plan
+
+on:
+  pull_request:
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+
+      - run: terraform init
+      - run: terraform plan -lock=false -out terraform.plan
+
+      # generate plain output
+      - run: terraform show -no-color terraform.plan > terraform.text
+
+      # generate json output
+      - run: terraform show -json terraform.plan > terraform.json
+
+      - uses: ahmadnassri/action-terraform-report@v3
+        with:
+          # tell the action the plan outputs
+          terraform-text: ${{ github.workspace }}/terraform.text
+          terraform-json: ${{ github.workspace }}/terraform.json
+          remove-stale-reports: true
