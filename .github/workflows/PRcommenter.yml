@@ -1,9 +1,12 @@
-name: Terraform Plan
+
+name: Terraform Plan2
+
 
 on:
   pull_request:
     paths:
       - "*.tf"
+     
 
 jobs:
   build:
@@ -75,4 +78,3 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
-            })
