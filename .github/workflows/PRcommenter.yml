@@ -1,37 +1,72 @@
-name: terraform-plan
+name: Terraform Plan
 
 on:
   pull_request:
+    paths:
+      - "*.tf"
+     
 
 jobs:
-  terraform-plan:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_wrapper: false
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-          aws-region: us-east-1
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.14.7
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{secrets.AWS_SECRET_KEY}}
+        aws-region: us-east-1
 
-      - run: terraform init
-      - run: terraform plan -lock=false -out terraform.plan
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt -check
+      continue-on-error: true
 
-      # generate plain output
-      - run: terraform show -no-color terraform.plan > terraform.text
+    - name: Terraform Init
+      id: init
+      run: terraform init
 
-      # generate json output
-      - run: terraform show -json terraform.plan > terraform.json
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
 
-      - uses: ahmadnassri/action-terraform-report@v3
-        with:
-          # tell the action the plan outputs
-          terraform-text: ${{ github.workspace }}/terraform.text
-          terraform-json: ${{ github.workspace }}/terraform.json
-          remove-stale-reports: true
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -no-color
+      continue-on-error: true
+
+    - uses: actions/github-script@v6
+      if: github.event_name == 'pull_request'
+      env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+          <details><summary>Validation Output</summary>
+          \`\`\`\n
+          ${{ steps.validate.outputs.stdout }}
+          \`\`\`
+          </details>
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+          <details><summary>Show Plan</summary>
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+          </details>
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
