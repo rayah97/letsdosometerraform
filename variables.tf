@@ -13,7 +13,6 @@ variable "instance_name" {
   description = "The name tag of the ec2 instance"
 }
 
-
 variable "instance_type" {
   type    = string
   default = "t2.micro"
