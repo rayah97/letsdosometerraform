@@ -86,12 +86,13 @@ resource "aws_instance" "main" {
 }
 
 terraform {
-  backend "s3" {
-    bucket = "bucketforterraformangitblaahrayah"
-    key    = "terraform.tfstate"
-    region = "us-east-1"
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "terraform-rayah"
+
+    workspaces {
+      name = "atlantis"
+    }
   }
 }
-
-
 

@@ -1,0 +1,39 @@
+repos:
+  - id: /.*/
+    allowed_overrides: [workflow]
+    pre_workflow_hooks:
+      - run: "/usr/local/bin/generate-tfc-rc.sh; /usr/local/bin/generate-client-config.sh"
+
+workflows:
+  terraform:
+    plan:
+      steps:
+      - env:
+          name: TF_WORKSPACE
+          command: echo $WORKSPACE
+      - init
+      - plan:
+          extra_args: ["-var-file=tfvars/$WORKSPACE.tfvars"]
+
+    apply:
+      steps:
+      - env:
+          name: TF_WORKSPACE
+          command: echo $WORKSPACE
+      - apply
+  
+  terragrunt:
+    plan:
+      steps:
+      - env:
+          name: TF_WORKSPACE
+          command: echo $WORKSPACE
+      - run: terragrunt plan -input=false -no-color
+
+    apply:
+      steps:
+      - env:
+          name: TF_WORKSPACE
+          command: echo $WORKSPACE
+      - run: terragrunt apply -input=false -no-color
+
