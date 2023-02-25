@@ -86,14 +86,13 @@ resource "aws_instance" "main" {
 }
 
 terraform {
-  backend "s3" {
-    bucket = "bucketforterraformangit"
-    key    = "terraform.tfstate"
-    region = "us-east-1"
-  }
-}
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "terraform-rayah"
 
-output "public_ip" {
-  value = aws_instance.main.public_ip
+    workspaces {
+      name = "atlantis"
+    }
+  }
 }
 
