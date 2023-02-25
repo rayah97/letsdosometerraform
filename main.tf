@@ -87,13 +87,11 @@ resource "aws_instance" "main" {
 
 terraform {
   backend "s3" {
-    bucket = "bucketforterraformangit"
+    bucket = "bucketforterraformangitblaahrayah"
     key    = "terraform.tfstate"
     region = "us-east-1"
   }
 }
 
-output "public_ip" {
-  value = aws_instance.main.public_ip
-}
+
 
